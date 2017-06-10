@@ -20,7 +20,9 @@
         "opus": {
             "hiraeth/app": {
                 "plugin/config": "",
-                "plugin/public": ""
+                "plugin/public": "",
+                "plugin/public/.index-relay.php": "public",
+                "plugin/public/.nostatic": "public"
             }
         }
     }

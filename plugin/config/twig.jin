@@ -26,3 +26,8 @@ delegates = [
 	"Hiraeth\\Twig\\FilesystemLoaderDelegate"
 ;	"Hiraeth\\Twig\\ChainLoaderDelegate",
 ]
+
+[middleware]
+queue = [
+	"Hiraeth\\Twig\\RelayMiddleware"
+]
