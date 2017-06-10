@@ -9,7 +9,7 @@ strict = true
 
 [twig]
 paths = {
-;	"views": "local/views"
+;	"templates": "templates"
 }
 
 ; Filters

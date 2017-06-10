@@ -19,7 +19,8 @@
     "extra": {
         "opus": {
             "hiraeth/app": {
-                "plugin/config": ""
+                "plugin/config": "",
+                "plugin/public": ""
             }
         }
     }
