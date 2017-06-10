@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "twig/twig": "^2.4"
+        "twig/twig": "^2.4",
+        "psr/http-message": "^1.0"
     },
     "autoload": {
         "classmap": ["src/"]
@@ -21,7 +22,7 @@
             "hiraeth/app": {
                 "plugin/config": "",
                 "plugin/public": "",
-                "plugin/public/.index-relay.php": "public",
+                "plugin/public/.index-twig.php": "public",
                 "plugin/public/.nostatic": "public"
             }
         }
