@@ -22,7 +22,12 @@ exit($hiraeth->run(function(PageHandler $handler, Request $request = NULL) {
 			$path    = $_SERVER['REQUEST_URI'];
 			$context = [];
 		} else {
-			$path    = $request->getUri()->getPath();
+			if (isset($request->getAttributes()['file'])) {
+				$path = $request->getAttributes()['file'];
+			} else {
+				$path = $request->getUri()->getPath();
+			}
+
 			$context = [
 				'request' => $request
 			];
@@ -40,7 +45,6 @@ exit($hiraeth->run(function(PageHandler $handler, Request $request = NULL) {
 		} else {
 			header('HTTP/1.1 404 Not Found');
 			echo 'Requested page could not be found';
-
 		}
 
 	} catch (Exception $e) {
