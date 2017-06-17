@@ -83,10 +83,10 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 		$loader_class = $this->config->get('twig', 'loader', 'Twig\Loader\LoaderInterface');
 		$cache_path   = $this->config->get('twig', 'cache_path', 'writable/cache/twig');
 		$environment  = new Twig\Environment($broker->make($loader_class), [
-			'debug'   => (bool) $this->app->getEnvironment('DEBUG'),
-			'charset' => $this->config->get('twig', 'charset', 'utf-8'),
-			'strict'  => $this->config->get('twig', 'strict', TRUE),
-			'cache'   => $this->app->getEnvironment('CACHE', TRUE)
+			'debug'            => (bool) $this->app->getEnvironment('DEBUG'),
+			'charset'          => $this->config->get('twig', 'charset', 'utf-8'),
+			'strict_variables' => $this->config->get('twig', 'strict', TRUE),
+			'cache'            => $this->app->getEnvironment('CACHE', TRUE)
 				? $this->app->getDirectory($cache_path)
 				: FALSE
 		]);
