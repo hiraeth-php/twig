@@ -48,9 +48,7 @@ exit($hiraeth->run(function(RequestResolver $resolver, Request $request = NULL, 
 		));
 
 		foreach ($result->getHeaders() as $name => $values) {
-			$name = str_replace('-', ' ', $name);
-			$name = ucwords($name);
-			$name = str_replace(' ', '-', $name);
+			$name = str_replace(' ', '-', ucwords(str_replace('-', ' ', $name)));
 
 			foreach ($values as $value) {
 				header(sprintf('%s: %s', $name, $value), FALSE);
