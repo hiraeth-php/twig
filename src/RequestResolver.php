@@ -2,6 +2,7 @@
 
 namespace Hiraeth\Twig;
 
+use Hiraeth\Application;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
@@ -13,9 +14,10 @@ class RequestResolver
 	/**
 	 *
 	 */
-	public function __construct(PageHandler $handler)
+	public function __construct(PageHandler $handler, Application $app)
 	{
 		$this->handler = $handler;
+		$this->app     = $app;
 	}
 
 
@@ -67,7 +69,7 @@ class RequestResolver
 			}
 
 		} catch (Exception $e) {
-			if ($this->getEnvironment('DEBUG')) {
+			if ($this->app->getEnvironment('DEBUG')) {
 				throw $e;
 			}
 
