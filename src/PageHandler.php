@@ -18,12 +18,6 @@ class PageHandler
 	/**
 	 *
 	 */
-	protected $template = NULL;
-
-
-	/**
-	 *
-	 */
 	protected $twig = NULL;
 
 
@@ -66,7 +60,9 @@ class PageHandler
 				return $this->twig->loadTemplate($template);
 
 			} catch (Twig\Error\LoaderError $e) {
-
+				//
+				// Nothing to do here
+				//
 			}
 		}
 

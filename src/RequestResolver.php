@@ -14,6 +14,30 @@ class RequestResolver
 	/**
 	 *
 	 */
+	protected $app = NULL;
+
+
+	/**
+	 *
+	 */
+	protected $handler = NULL;
+
+
+	/**
+	 *
+	 */
+	protected $request = NULL;
+
+
+	/**
+	 *
+	 */
+	protected $response = NULL;
+
+
+	/**
+	 *
+	 */
 	public function __construct(PageHandler $handler, Application $app)
 	{
 		$this->handler = $handler;
