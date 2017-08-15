@@ -93,10 +93,13 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 
 		foreach ($this->config->get('*', 'twig.filters', array()) as $config => $filters) {
 			foreach ($filters as $name => $filter) {
-				$environment->addFilter(new Twig\TwigFilter($name, $filter['target'], $filter['options']));
+				if (function_exists($filter['target'])) {
+					$environment->addFilter(new Twig\TwigFilter($name, $filter['target'], $filter['options'] ?? array()));
+				} else {
+					$environment->addFilter(new Twig\TwigFilter($name, new $filter['target'], $filter['options'] ?? array()));
+				}
 			}
 		}
-
 		return $environment;
 	}
 }
