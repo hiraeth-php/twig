@@ -17,8 +17,8 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 	 * @var Hiraeth\Application
 	 */
 	protected $app = NULL;
-
-
+	
+	
 	/**
 	 * The Hiraeth configuration instance
 	 *
@@ -26,8 +26,8 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 	 * @var Hiraeth\Configuration
 	 */
 	protected $config = NULL;
-
-
+	
+	
 	/**
 	 * Get the class for which the delegate operates.
 	 *
@@ -39,8 +39,8 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 	{
 		return 'Twig\Environment';
 	}
-
-
+	
+	
 	/**
 	 * Get the interfaces for which the delegate provides a class.
 	 *
@@ -54,8 +54,8 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 			'Twig_Environment'
 		];
 	}
-
-
+	
+	
 	/**
 	 * Construct the delegate
 	 *
@@ -69,8 +69,8 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 		$this->app    = $app;
 		$this->config = $config;
 	}
-
-
+	
+	
 	/**
 	 * Get the instance of the class for which the delegate operates.
 	 *
@@ -90,14 +90,26 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 				? $this->app->getDirectory($cache_path)
 				: FALSE
 		]);
-
-		foreach ($this->config->get('*', 'twig.filters', array()) as $config => $filters) {
+		
+		foreach (array_keys($this->config->get('*', 'twig', array())) as $config) {
+			$filters    = $this->config->get($config, 'twig.filters', array());
+			$globals    = $this->config->get($config, 'twig.globals', array());
+			$extensions = $this->config->get($config, 'twig.extensions', array());
+			
 			foreach ($filters as $name => $filter) {
 				if (function_exists($filter['target'])) {
 					$environment->addFilter(new Twig\TwigFilter($name, $filter['target'], $filter['options'] ?? array()));
 				} else {
 					$environment->addFilter(new Twig\TwigFilter($name, new $filter['target'], $filter['options'] ?? array()));
 				}
+			}
+			
+			foreach ($globals as $name => $class) {
+				$environment->addGlobal($name, $broker->make($class));
+			}
+			
+			foreach ($extensions as $class) {
+				$environment->addExtension($broker->make($class));
 			}
 		}
 		return $environment;
