@@ -21,6 +21,16 @@ filters = {
 ;	}
 }
 
+; Globals
+globals = {
+;	"messaging": "Acme\\Flash\\Messaging"	
+}
+
+; Extensions
+extensions = [
+;	"Twig_Extension_Debug"
+]
+
 [application]
 delegates = [
 	"Hiraeth\\Twig\\EnvironmentDelegate",

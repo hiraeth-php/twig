@@ -91,7 +91,12 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 				: FALSE
 		]);
 
-		foreach ($this->config->get('*', 'twig.filters', array()) as $config => $filters) {
+		foreach (array_keys($this->config->get('*', 'twig', array())) as $config) {
+			$filters    = $this->config->get($config, 'twig.filters', array());
+			$globals    = $this->config->get($config, 'twig.globals', array());
+			$extensions = $this->config->get($config, 'twig.extensions', array());
+
+
 			foreach ($filters as $name => $filter) {
 				if (function_exists($filter['target'])) {
 					$environment->addFilter(new Twig\TwigFilter($name, $filter['target'], $filter['options'] ?? array()));
@@ -99,7 +104,16 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 					$environment->addFilter(new Twig\TwigFilter($name, new $filter['target'], $filter['options'] ?? array()));
 				}
 			}
+
+			foreach ($globals as $name => $class) {
+				$environment->addGlobal($name, $broker->make($class));
+			}
+
+			foreach ($extensions as $class) {
+				$environment->addExtension($broker->make($class));
+			}
 		}
+
 		return $environment;
 	}
 }
