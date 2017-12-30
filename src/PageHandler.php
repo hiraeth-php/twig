@@ -48,6 +48,11 @@ class PageHandler
 
 		if (substr($path, -1) == '/') {
 			$templates[0] = '@pages' . $path . 'index.html';
+
+			if (strlen($path) > 1) {
+				$templates[1] = '@pages' . substr($path, 0, -1) . '.html';
+			}
+
 		} else {
 			$templates[1] = '@pages' . $path . '/index.html';
 			$templates[0] = '@pages' . $path . '.html';

@@ -34,6 +34,6 @@ class RelayMiddleware
 	 */
 	public function __invoke(Request $request, Response $response, $next)
 	{
-		return next($request, $this->resolver->__invoke($request, $response->withBody($this->stream)));
+		return $next($request, $this->resolver->__invoke($request, $response->withBody($this->stream)));
 	}
 }

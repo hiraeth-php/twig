@@ -67,26 +67,10 @@ class RequestResolver
 
 			if ($template = $this->handler->load($path)) {
 				if ($this->handler->isRedirect()) {
-					return $this->redirect($path);
+					return $this->redirect(substr($path, -1) == '/' ? substr($path, 0, -1) : $path . '/');
 				}
 
-				if (!$this->response) {
-					header('HTTP/1.1 200 Found');
-					echo $this->handler->render($template, [
-						'request'  => $this->request,
-						'response' => $this->response
-					]);
-
-					return 0;
-
-				} else {
-					$this->response->getBody()->write($this->handler->render($template, [
-						'request'  => $this->request,
-						'response' => $this->response
-					]));
-
-					return $this->response->withStatus(200);
-				}
+				return $this->found($template);
 
 			} else {
 				return $this->notfound();
@@ -126,6 +110,32 @@ class RequestResolver
 	/**
 	 *
 	 */
+	protected function found($template)
+	{
+		if (!$this->response) {
+			header('HTTP/1.1 200 Found');
+			echo $this->handler->render($template, [
+				'request'  => $this->request,
+				'response' => $this->response
+			]);
+
+			return 0;
+
+		} else {
+			$this->response->getBody()->write($this->handler->render($template, [
+				'request'  => $this->request,
+				'response' => $this->response
+			]));
+
+			return $this->response->withStatus(200);
+		}
+
+	}
+
+
+	/**
+	 *
+	 */
 	protected function notfound()
 	{
 		$body = 'Requested page could not be found';
@@ -150,11 +160,11 @@ class RequestResolver
 	{
 		if (!$this->response) {
 			header('HTTP/1.1 301 Moved Permanently');
-			header('Location: ' . $path . '/');
+			header('Location: ' . $path);
 			return 3;
 
 		} else {
-			return $this->response->withStatus(301)->withHeader('Location', $path . '/');
+			return $this->response->withStatus(301)->withHeader('Location', $path);
 		}
 	}
 }

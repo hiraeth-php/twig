@@ -80,34 +80,59 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 	 */
 	public function __invoke(Hiraeth\Broker $broker)
 	{
+		$config = [
+			'debug'   => (bool) $this->app->getEnvironment('DEBUG'),
+			'charset' => $this->config->get('twig', 'charset', 'utf-8')
+		];
+
+		if ($this->app->getEnvironment('CACHING', TRUE)) {
+			$config['cache'] = $this->config->get('twig', 'cache_path', 'writable/cache/twig');
+		} else {
+			$config['cache'] = FALSE;
+		}
+
+		if ($this->config->get('twig', 'strict', NULL) !== NULL) {
+			$config['strict_variables'] = $this->config->get('twig', 'strict', NULL);
+		} else {
+			$config['strict_variables'] = !$config['debug'];
+		}
+
 		$loader_class = $this->config->get('twig', 'loader', 'Twig\Loader\LoaderInterface');
-		$cache_path   = $this->config->get('twig', 'cache_path', 'writable/cache/twig');
-		$environment  = new Twig\Environment($broker->make($loader_class), [
-			'debug'            => (bool) $this->app->getEnvironment('DEBUG'),
-			'charset'          => $this->config->get('twig', 'charset', 'utf-8'),
-			'strict_variables' => $this->config->get('twig', 'strict', TRUE),
-			'cache'            => $this->app->getEnvironment('CACHING', TRUE)
-				? $this->app->getDirectory($cache_path)
-				: FALSE
-		]);
+		$environment  = new Twig\Environment($broker->make($loader_class), $config);
 
 		foreach (array_keys($this->config->get('*', 'twig', array())) as $config) {
-			$filters    = $this->config->get($config, 'twig.filters', array());
-			$globals    = $this->config->get($config, 'twig.globals', array());
-			$extensions = $this->config->get($config, 'twig.extensions', array());
+			//
+			// Configure filters
+			///
 
+			$filters = $this->config->get($config, 'twig.filters', array());
 
 			foreach ($filters as $name => $filter) {
 				if (function_exists($filter['target'])) {
-					$environment->addFilter(new Twig\TwigFilter($name, $filter['target'], $filter['options'] ?? array()));
+					$filter = new Twig\TwigFilter($name, $filter['target'], $filter['options'] ?? array());
 				} else {
-					$environment->addFilter(new Twig\TwigFilter($name, new $filter['target'], $filter['options'] ?? array()));
+					$handler = $broker->make($filter['target']);
+					$filter  = new Twig\TwigFilter($name, $handler, $filter['options'] ?? array());
 				}
+
+				$environment->addFilter($filter);
 			}
+
+			//
+			// Configure globals
+			//
+
+			$globals = $this->config->get($config, 'twig.globals', array());
 
 			foreach ($globals as $name => $class) {
 				$environment->addGlobal($name, $broker->make($class));
 			}
+
+			//
+			// Configure extensions
+			//
+
+			$extensions = $this->config->get($config, 'twig.extensions', array());
 
 			foreach ($extensions as $class) {
 				$environment->addExtension($broker->make($class));
