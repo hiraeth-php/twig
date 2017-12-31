@@ -67,7 +67,7 @@ class RequestResolver
 
 			if ($template = $this->handler->load($path)) {
 				if ($this->handler->isRedirect()) {
-					return $this->redirect(substr($path, -1) == '/' ? substr($path, 0, -1) : $path . '/');
+					return $this->redirect(substr($path, -1, 1) == '/' ? substr($path, 0, -1) : $path . '/');
 				}
 
 				return $this->found($template);

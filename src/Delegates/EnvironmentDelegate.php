@@ -86,7 +86,11 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 		];
 
 		if ($this->app->getEnvironment('CACHING', TRUE)) {
-			$config['cache'] = $this->config->get('twig', 'cache_path', 'writable/cache/twig');
+			$config['cache'] = $this->app->getDirectory(
+				$this->config->get('twig', 'cache_path', 'writable/cache/twig'),
+				TRUE
+			);
+
 		} else {
 			$config['cache'] = FALSE;
 		}
