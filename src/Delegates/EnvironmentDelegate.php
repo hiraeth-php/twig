@@ -123,6 +123,23 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 			}
 
 			//
+			// Configure functions
+			//
+
+			$functions = $this->config->get($config, 'twig.functions', array());
+
+			foreach ($functions as $name => $function) {
+				if (function_exists($function['target'])) {
+					$function = new Twig\TwigFunction($name, $function['target']);
+				} else {
+					$handler  = $broker->make($function['target']);
+					$function = new Twig\TwigFunction($name, $handler);
+				}
+
+				$environment->addFunction($function);
+			}
+
+			//
 			// Configure globals
 			//
 
