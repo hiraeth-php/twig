@@ -70,7 +70,8 @@ strict = null
 	;
 
 	globals = {
-	;	"messaging": "Acme\\Flash\\Messaging"
+		"app": "Hiraeth\\Application",
+		"config": "Hiraeth\\Configuration"
 	}
 
 	;
