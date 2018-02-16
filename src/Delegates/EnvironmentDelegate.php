@@ -98,7 +98,7 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 		if ($this->config->get('twig', 'strict', NULL) !== NULL) {
 			$config['strict_variables'] = $this->config->get('twig', 'strict', NULL);
 		} else {
-			$config['strict_variables'] = !$config['debug'];
+			$config['strict_variables'] = $config['debug'];
 		}
 
 		$loader_class = $this->config->get('twig', 'loader', 'Twig\Loader\LoaderInterface');
