@@ -81,7 +81,7 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 	public function __invoke(Hiraeth\Broker $broker)
 	{
 		$config = [
-			'debug'   => (bool) $this->app->getEnvironment('DEBUG'),
+			'debug'   => (bool) $this->app->getEnvironment('DEBUG', FALSE),
 			'charset' => $this->config->get('twig', 'charset', 'utf-8')
 		];
 
