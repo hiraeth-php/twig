@@ -7,7 +7,7 @@
 	;
 
 	aliases = {
-		"Hiraeth\Templates\ManagerInterface": "Hiraeth\Twig\Manager",
+		"Hiraeth\Templates\TemplateManagerInterface": "Hiraeth\Twig\TemplateManager",
 		"Twig\Loader\LoaderInterface": "Twig\Loader\FilesystemLoader",
 		"Twig_LoaderInterface": "Twig\Loader\FilesystemLoader",
 		"Twig_Environment": "Twig\Environment"

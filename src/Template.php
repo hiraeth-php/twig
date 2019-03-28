@@ -19,9 +19,10 @@ class Template extends Templates\AbstractTemplate
 	/**
 	 *
 	 */
-	public function __construct(Twig\TemplateWrapper $template)
+	public function __construct(Twig\TemplateWrapper $template, array $data = array())
 	{
 		$this->template = $template;
+		$this->data     = $data;
 	}
 
 
