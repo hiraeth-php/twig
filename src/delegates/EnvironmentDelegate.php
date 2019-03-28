@@ -66,7 +66,7 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 			'debug'            => $options['debug'],
 			'strict_variables' => $options['strict'],
 			'charset'          => $options['charset'],
-			'cache_path'       => $this-app->getEnvironment('CACHING', TRUE)
+			'cache_path'       => $this->app->getEnvironment('CACHING', TRUE)
 				? $this->app->getDirectory($options['cache'], TRUE)->getPathname()
 				: FALSE
 		]);
