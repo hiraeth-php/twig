@@ -1,0 +1,140 @@
+[application]
+
+	;
+	; Aliases enable you to inform the dependency injector which concrete class should be built
+	; to provide for a type-hinted interface.  If the interface does not exist, a built in php
+	; class alias will be generated as an alias for the class.
+	;
+
+	aliases = {
+		"Hiraeth\Templates\ManagerInterface": "Hiraeth\Twig\Manager",
+		"Twig\Loader\LoaderInterface": "Twig\Loader\FilesystemLoader",
+		"Twig_LoaderInterface": "Twig\Loader\FilesystemLoader",
+		"Twig_Environment": "Twig\Environment"
+	}
+
+	;
+	; Delegates are mini-factories for the dependency injector.  They provide all the information
+	; required to register with dependency injector as being capable of building a particular class
+	; and contain all the requisite logic for building that class, including any configuration
+	; settings logic.
+	;
+
+	delegates = [
+		"Hiraeth\Twig\EnvironmentDelegate",
+		"Hiraeth\Twig\FilesystemLoaderDelegate"
+	]
+
+	;
+	; Providers can be thought of as hooks which receive an object instance of a particular
+	; interface once it has been created by the dependecy injector.  From here, it can call the
+	; methods assured in that interface to conitnue configuring or setting up the instances.  Like
+	; delegates, providers contain all the requisite information inside the class, so they merely
+	; need to be registered.
+	;
+
+	providers = [
+
+	]
+
+;
+; A [twig] section can be added to any configuration file to add paths, filters, globals, or extensions.  Note,
+; however, that conflicts will not be automstically resolved, so if two separate [twig] configurations provide a
+; conflicting key, twig may complain.
+;
+
+[twig]
+
+	;
+	; Whether twig should use strict variables.
+	;
+	; Strict variables basically mean that if a variable is not defined it will throw an error.  If strict this value is
+	; set to `null` then the default behavior will depend on the `DEBUG` environment variable.
+	;
+	strict = null
+
+	;
+	; The character set to use
+	;
+	charset = utf-8
+
+	;
+	; Cache directory to store the compiled templates or related cache data.
+	;
+	; This will be relative to the application root.  Caching itself will only be used of the
+	; environment variable `CACHING` is not set to 0.  If caching is enabled, this cache may need to
+	; be manually removed in order for changes to templates to be immediately visible.
+	;
+	cache = storage/cache/templates
+
+	;
+	; Filters- targets can be either an existing function or a class name.  Instances will be
+	; constructed using the dependency injector.
+	;
+
+	filters = {
+		"md5": {
+			"target": "md5"
+		},
+		"sha1": {
+			"target": "sha1"
+		},
+		"vars": {
+			"target": "get_object_vars"
+		},
+		"class": {
+			"target": "get_class"
+		},
+		"interfaces": {
+			"target": "class_implements"
+		},
+		"json_decode": {
+			"target": "json_decode"
+		},
+		"json_encode": {
+			"target": "json_encode"
+		},
+		"bool": {
+			"target": "boolval"
+		},
+		"double": {
+			"target": "doubleval"
+		},
+		"string": {
+			"target": "strval"
+		},
+		"float": {
+			"target": "floatval"
+		},
+		"int": {
+			"target": "intval"
+		}
+	}
+
+	;
+	; Functions - targets can be either an existing function or a class name.  Instances will be
+	; constructed using the dependency injector.
+	;
+
+	functions = {
+	;	"md5": {
+	;		"target": "md5"
+	;	}
+	}
+
+	;
+	; Globals - A list of global variables to class names.  Instances will be constructed using the
+	; depency injector / broker.
+	;
+
+	globals = {
+		"app": "Hiraeth\Application"
+	}
+
+	;
+	; Extensions - A list of extension classes
+	;
+
+	extensions = [
+	;	"Twig_Extension_Debug"
+	]

@@ -1,31 +1,28 @@
 {
-    "name": "hiraeth/twig",
-    "description": "Twig for the Hiraeth Nano-Framework",
-    "license": "MIT",
-    "authors": [
-        {
-            "name":  "Matthew J. Sahagian",
-            "email": "msahagian@dotink.org",
-            "role":  "Lead Architect / Developer"
-        }
-    ],
-    "require": {
-        "php": ">=7.0.0",
-        "twig/twig": "^2.4",
-        "psr/http-message": "^1.0"
-    },
-    "autoload": {
-        "classmap": ["src/"]
-    },
-    "type": "opus-package",
-    "extra": {
-        "opus": {
-            "hiraeth/app": {
-                "plugin/config": "",
-                "plugin/public": "",
-                "plugin/public/.index-twig.php": "public",
-                "plugin/public/.nostatic": "public"
-            }
-        }
-    }
+	"name": "hiraeth/twig",
+    "description": "Twig templates for the Hiraeth Nano-Framework",
+	"license": "MIT",
+	"authors": [
+		{
+			"name":  "Matthew J. Sahagian",
+			"email": "matthew.sahagian@gmail.com",
+			"role":  "Lead Architect / Developer"
+		}
+	],
+	"require": {
+		"hiraeth/app": "^2.0",
+        "hiraeth/templates": "^1.0",
+		"twig/twig": "^2.7"
+	},
+	"autoload": {
+		"classmap": ["src/"]
+	},
+	"type": "opus-package",
+	"extra": {
+		"opus": {
+			"hiraeth/app": {
+				"config": ""
+			}
+		}
+	}
 }
