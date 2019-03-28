@@ -28,6 +28,15 @@ class Template extends Templates\AbstractTemplate
 	/**
 	 *
 	 */
+	public function getExtension(): string
+	{
+		return explode('.', basename($this->template->getTemplateName()), 2)[1] ?? '';
+	}
+
+
+	/**
+	 *
+	 */
 	public function render(): string
 	{
 		return $this->template->render($this->data);
