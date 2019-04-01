@@ -28,6 +28,15 @@ class TemplateManager implements Templates\TemplateManagerInterface
 	/**
 	 *
 	 */
+	public function has(string $path): bool
+	{
+		return $this->environment->getLoader()->exists($path);
+	}
+
+
+	/**
+	 *
+	 */
 	public function load(string $path, array $data = []): Templates\TemplateInterface
 	{
 		return new Template($this->environment->load($path, $data));
