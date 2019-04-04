@@ -11,15 +11,6 @@ use Twig;
 class EnvironmentDelegate implements Hiraeth\Delegate
 {
 	/**
-	 * The Hiraeth application instance
-	 *
-	 * @access protected
-	 * @var Hiraeth\Application
-	 */
-	protected $app = NULL;
-
-
-	/**
 	 * Get the class for which the delegate operates.
 	 *
 	 * @static
@@ -33,45 +24,32 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 
 
 	/**
-	 * Construct the delegate
-	 *
-	 * @access public
-	 * @param Hiraeth\Application $app The Hiraeth application instance
-	 * @return void
-	 */
-	public function __construct(Hiraeth\Application $app)
-	{
-		$this->app = $app;
-	}
-
-
-	/**
 	 * Get the instance of the class for which the delegate operates.
 	 *
 	 * @access public
-	 * @param Hiraeth\Broker $broker The dependency injector instance
+	 * @param Hiraeth\Application $app The application instance for which the delegate operates
 	 * @return Twig\Environment The instance of our logger
 	 */
-	public function __invoke(Hiraeth\Broker $broker): object
+	public function __invoke(Hiraeth\Application $app): object
 	{
-		$options = $this->app->getConfig('packages/twig', 'twig', [
-			'debug'   => (bool) $this->app->getEnvironment('DEBUG'),
-			'strict'  => (bool) $this->app->getEnvironment('DEBUG'),
+		$options = $app->getConfig('packages/twig', 'twig', [
+			'debug'   => (bool) $app->getEnvironment('DEBUG'),
+			'strict'  => (bool) $app->getEnvironment('DEBUG'),
 			'cache'   => 'storage/cache/templates',
 			'charset' => 'utf-8'
 
 		]);
 
-		$environment = new Twig\Environment($broker->make('Twig\Loader\LoaderInterface'), [
+		$environment = new Twig\Environment($app->get('Twig\Loader\LoaderInterface'), [
 			'debug'            => $options['debug'],
 			'strict_variables' => $options['strict'],
 			'charset'          => $options['charset'],
-			'cache'            => $this->app->getEnvironment('CACHING', TRUE)
-				? $this->app->getDirectory($options['cache'], TRUE)->getPathname()
+			'cache'            => $app->getEnvironment('CACHING', TRUE)
+				? $app->getDirectory($options['cache'], TRUE)->getPathname()
 				: FALSE
 		]);
 
-		foreach ($this->app->getConfig('*', 'twig', array()) as $collection => $config) {
+		foreach ($app->getConfig('*', 'twig', array()) as $collection => $config) {
 			//
 			// Configure filters
 			//
@@ -79,7 +57,7 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 			foreach ($config['filters'] ?? [] as $name => $filter) {
 				$options = $filter['options'] ?? array();
 				$handler = !function_exists($filter['target'])
-					? $broker->make($filter['target'])
+					? $app->get($filter['target'])
 					: $filter['target'];
 
 
@@ -92,7 +70,7 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 
 			foreach ($config['functions'] ?? [] as $name => $function) {
 				$handler = !function_exists($function['target'])
-					? $broker->make($function['target'])
+					? $app->get($function['target'])
 					: $filter['target'];
 
 				$environment->addFunction(new Twig\TwigFunction($name, $handler));
@@ -103,7 +81,7 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 			//
 
 			foreach ($config['globals'] ?? [] as $name => $class) {
-				$environment->addGlobal($name, $broker->make($class));
+				$environment->addGlobal($name, $app->get($class));
 			}
 
 			//
@@ -111,7 +89,7 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 			//
 
 			foreach ($config['extensions'] ?? [] as $class) {
-				$environment->addExtension($broker->make($class));
+				$environment->addExtension($app->get($class));
 			}
 		}
 

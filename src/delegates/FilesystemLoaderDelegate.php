@@ -11,15 +11,6 @@ use Twig;
 class FilesystemLoaderDelegate implements Hiraeth\Delegate
 {
 	/**
-	 * The Hiraeth application instance
-	 *
-	 * @access protected
-	 * @var Hiraeth\Application
-	 */
-	protected $app = NULL;
-
-
-	/**
 	 * Get the class for which the delegate operates.
 	 *
 	 * @static
@@ -33,34 +24,21 @@ class FilesystemLoaderDelegate implements Hiraeth\Delegate
 
 
 	/**
-	 * Construct the delegate
-	 *
-	 * @access public
-	 * @param Hiraeth\Application $app The Hiraeth application instance
-	 * @return void
-	 */
-	public function __construct(Hiraeth\Application $app)
-	{
-		$this->app = $app;
-	}
-
-
-	/**
 	 * Get the instance of the class for which the delegate operates.
 	 *
 	 * @access public
-	 * @param Hiraeth\Broker $broker The dependency injector instance
+	 * @param Hiraeth\Application $app The application instance for which the delegate operates
 	 * @return Twig\Loader\FilesystemLoader Our filesystem loaer instance
 	 */
-	public function __invoke(Hiraeth\Broker $broker): object
+	public function __invoke(Hiraeth\Application $app): object
 	{
 		$loader = new Twig\Loader\FilesystemLoader();
 		$paths  = array_merge(...array_reverse(array_values(
-			$this->app->getConfig('*', 'templates.paths', array())
+			$app->getConfig('*', 'templates.paths', array())
 		)));
 
 		foreach ($paths as $namespace => $path) {
-			$loader->addPath($this->app->getDirectory($path), $namespace);
+			$loader->addPath($app->getDirectory($path), $namespace);
 		}
 
 		return $loader;
