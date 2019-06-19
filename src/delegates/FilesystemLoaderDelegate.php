@@ -37,8 +37,12 @@ class FilesystemLoaderDelegate implements Hiraeth\Delegate
 			$app->getConfig('*', 'templates.paths', array())
 		)));
 
-		foreach ($paths as $namespace => $path) {
-			$loader->addPath($app->getDirectory($path), $namespace);
+		foreach ($paths as $namespace => $paths) {
+			settype($paths, 'array');
+
+			foreach ($paths as $path) {
+				$loader->addPath($app->getDirectory($path)->getPathName(), $namespace);
+			}
 		}
 
 		return $loader;
