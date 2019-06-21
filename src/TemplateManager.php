@@ -8,7 +8,7 @@ use Hiraeth\Templates;
 /**
  *
  */
-class TemplateManager implements Templates\TemplateManagerInterface
+class TemplateManager implements Templates\ManagerInterface
 {
 	/**
 	 *
