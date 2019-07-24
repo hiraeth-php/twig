@@ -39,6 +39,6 @@ class TemplateManager implements Templates\ManagerInterface
 	 */
 	public function load(string $path, array $data = []): Templates\TemplateInterface
 	{
-		return new Template($this->environment->load($path, $data));
+		return new Template($this->environment->load($path), $data);
 	}
 }
