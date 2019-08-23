@@ -106,6 +106,9 @@
 		},
 		"int": {
 			"target": "intval"
+		},
+		"attr": {
+			"target": "Hiraeth\Twig\AttrFilter"
 		}
 	}
 
