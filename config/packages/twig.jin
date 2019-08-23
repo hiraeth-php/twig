@@ -108,7 +108,10 @@
 			"target": "intval"
 		},
 		"attr": {
-			"target": "Hiraeth\Twig\AttrFilter"
+			"target": "Hiraeth\Twig\AttrFilter",
+			"options": {
+				"is_safe": ["html"]
+			}
 		}
 	}
 
