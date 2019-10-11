@@ -33,16 +33,14 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 	public function __invoke(Hiraeth\Application $app): object
 	{
 		$options = $app->getConfig('packages/twig', 'twig', [
-			'debug'   => (bool) $app->getEnvironment('DEBUG'),
-			'strict'  => (bool) $app->getEnvironment('DEBUG'),
+			'debug'   => $app->isDebugging(),
 			'cache'   => 'storage/cache/templates',
 			'charset' => 'utf-8'
-
 		]);
 
 		$environment = new Twig\Environment($app->get('Twig\Loader\LoaderInterface'), [
 			'debug'            => $options['debug'],
-			'strict_variables' => $options['strict'],
+			'strict_variables' => $options['strict'] ?? $options['debug'],
 			'charset'          => $options['charset'],
 			'cache'            => $app->getEnvironment('CACHING', TRUE)
 				? $app->getDirectory($options['cache'], TRUE)->getPathname()
