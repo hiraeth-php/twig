@@ -47,7 +47,7 @@
 	; Whether twig should use strict variables.
 	;
 	; Strict variables basically mean that if a variable is not defined it will throw an error.  If strict this value is
-	; set to `null` then the default behavior will depend on the `DEBUG` environment variable.
+	; set to `null` then the default behavior will depend on the debug setting.
 	;
 	strict = null
 
@@ -106,6 +106,12 @@
 		},
 		"int": {
 			"target": "intval"
+		},
+		"type": {
+			"target": "gettype"
+		},
+		"scalar": {
+			"target": "is_scalar"
 		},
 		"attr": {
 			"target": "Hiraeth\Twig\AttrFilter",
