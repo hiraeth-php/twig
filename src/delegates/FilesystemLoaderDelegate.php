@@ -32,16 +32,26 @@ class FilesystemLoaderDelegate implements Hiraeth\Delegate
 	 */
 	public function __invoke(Hiraeth\Application $app): object
 	{
-		$loader = new Twig\Loader\FilesystemLoader();
-		$paths  = array_merge_recursive(...array_reverse(array_values(
-			$app->getConfig('*', 'templates.paths', array())
-		)));
+		$loader    = new Twig\Loader\FilesystemLoader();
+		$templates = $app->getConfig('*', 'templates', array());
 
-		foreach ($paths as $namespace => $paths) {
-			settype($paths, 'array');
+		uasort($templates, function($a, $b) {
+			$a_priority = $a['priority'] ?? 50;
+			$b_priority = $b['priority'] ?? 50;
+		});
 
-			foreach ($paths as $path) {
-				$loader->addPath($app->getDirectory($path)->getPathName(), $namespace);
+		foreach ($templates as $config) {
+			$paths = $config['paths'] ?? array();
+
+			foreach ($paths as $namespace => $entries) {
+				settype($entries, 'array');
+
+				foreach ($entries as $entry) {
+					$loader->addPath(
+						$app->getDirectory($entry)->getRealPath(),
+						$namespace
+					);
+				}
 			}
 		}
 
