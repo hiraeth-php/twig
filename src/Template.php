@@ -6,18 +6,20 @@ use Twig;
 use Hiraeth\Templates;
 
 /**
- *
+ * An abstracted Twig template which adheres to Hiraeth\Templates\Template
  */
 class Template extends Templates\AbstractTemplate
 {
 	/**
+	 * The twig template instance
 	 *
+	 * @var Twig\TemplateWrapper
 	 */
 	protected $template = NULL;
 
 
 	/**
-	 *
+	 * Create a new instance
 	 */
 	public function __construct(Twig\TemplateWrapper $template, array $data = array())
 	{
@@ -27,7 +29,7 @@ class Template extends Templates\AbstractTemplate
 
 
 	/**
-	 *
+	 * {@inheritDoc}
 	 */
 	public function getExtension(): string
 	{
@@ -36,7 +38,7 @@ class Template extends Templates\AbstractTemplate
 
 
 	/**
-	 *
+	 * {@inheritDoc}
 	 */
 	public function render(): string
 	{

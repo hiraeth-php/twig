@@ -6,16 +6,12 @@ use Hiraeth;
 use Twig;
 
 /**
- *
+ * A Hiraeth Delegate capable of creating a Twig\Environment
  */
 class EnvironmentDelegate implements Hiraeth\Delegate
 {
 	/**
-	 * Get the class for which the delegate operates.
-	 *
-	 * @static
-	 * @access public
-	 * @return string The class for which the delegate operates
+	 * {@inheritDoc}
 	 */
 	static public function getClass(): string
 	{
@@ -24,11 +20,7 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 
 
 	/**
-	 * Get the instance of the class for which the delegate operates.
-	 *
-	 * @access public
-	 * @param Hiraeth\Application $app The application instance for which the delegate operates
-	 * @return Twig\Environment The instance of our logger
+	 * {@inheritDoc}
 	 */
 	public function __invoke(Hiraeth\Application $app): object
 	{
@@ -47,12 +39,28 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 				: FALSE
 		]);
 
-		foreach ($app->getConfig('*', 'twig', array()) as $collection => $config) {
+		$defaults = [
+			'extensions' => array(),
+			'filters'    => array(),
+			'functions'  => array(),
+			'globals'    => array(),
+		];
+
+		foreach ($app->getConfig('*', 'twig', $defaults) as $path => $config) {
+
+			//
+			// Configure extensions
+			//
+
+			foreach ($config['extensions'] as $class) {
+				$environment->addExtension($app->get($class));
+			}
+
 			//
 			// Configure filters
 			//
 
-			foreach ($config['filters'] ?? [] as $name => $filter) {
+			foreach ($config['filters'] as $name => $filter) {
 				$options = $filter['options'] ?? array();
 				$handler = !function_exists($filter['target'])
 					? $app->get($filter['target'])
@@ -66,7 +74,7 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 			// Configure functions
 			//
 
-			foreach ($config['functions'] ?? [] as $name => $function) {
+			foreach ($config['functions'] as $name => $function) {
 				$handler = !function_exists($function['target'])
 					? $app->get($function['target'])
 					: $filter['target'];
@@ -78,17 +86,10 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 			// Configure globals
 			//
 
-			foreach ($config['globals'] ?? [] as $name => $class) {
+			foreach ($config['globals'] as $name => $class) {
 				$environment->addGlobal($name, $app->get($class));
 			}
 
-			//
-			// Configure extensions
-			//
-
-			foreach ($config['extensions'] ?? [] as $class) {
-				$environment->addExtension($app->get($class));
-			}
 		}
 
 		return $environment;

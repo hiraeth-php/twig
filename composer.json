@@ -1,28 +1,35 @@
 {
-	"name": "hiraeth/twig",
+    "name": "hiraeth/twig",
     "description": "Twig templates for the Hiraeth Nano-Framework",
-	"license": "MIT",
-	"authors": [
-		{
-			"name":  "Matthew J. Sahagian",
-			"email": "matthew.sahagian@gmail.com",
-			"role":  "Lead Architect / Developer"
-		}
-	],
-	"require": {
-		"hiraeth/app": "^2.0",
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name":  "Matthew J. Sahagian",
+            "email": "matthew.sahagian@gmail.com",
+            "role":  "Lead Architect / Developer"
+        }
+    ],
+    "provide": {
+        "hiraeth/templates-imp": "1.0.0"
+    },
+    "require": {
+        "hiraeth/app": "^2.0",
         "hiraeth/templates": "^1.0",
-		"twig/twig": "^2.7"
-	},
-	"autoload": {
-		"classmap": ["src/"]
-	},
-	"type": "opus-package",
-	"extra": {
-		"opus": {
-			"hiraeth/app": {
-				"config": ""
-			}
-		}
-	}
+        "twig/twig": "^2.7"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^0.12.0@dev"
+    },
+    "autoload": {
+        "classmap": ["src/"]
+    },
+    "type": "opus-package",
+    "extra": {
+        "opus": {
+            "hiraeth/app": {
+                "config": ""
+            }
+        }
+    }
 }

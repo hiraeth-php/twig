@@ -8,7 +8,7 @@ use Hiraeth\Templates;
 /**
  *
  */
-class TemplateManager implements Templates\ManagerInterface
+class Manager implements Templates\Manager
 {
 	/**
 	 *
@@ -37,7 +37,7 @@ class TemplateManager implements Templates\ManagerInterface
 	/**
 	 *
 	 */
-	public function load(string $path, array $data = []): Templates\TemplateInterface
+	public function load(string $path, array $data = []): Templates\Template
 	{
 		return new Template($this->environment->load($path), $data);
 	}
