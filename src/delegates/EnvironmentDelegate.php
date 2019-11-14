@@ -2,6 +2,7 @@
 
 namespace Hiraeth\Twig;
 
+use RuntimeException;
 use Hiraeth;
 use Twig;
 
@@ -62,12 +63,11 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 
 			foreach ($config['filters'] as $name => $filter) {
 				$options = $filter['options'] ?? array();
-				$handler = !function_exists($filter['target'])
-					? $app->get($filter['target'])
-					: $filter['target'];
 
+				if ($handler = $this->resolve($app, $function)) {
+					$environment->addFilter(new Twig\TwigFilter($name, $handler, $options));
+				}
 
-				$environment->addFilter(new Twig\TwigFilter($name, $handler, $options));
 			}
 
 			//
@@ -75,11 +75,9 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 			//
 
 			foreach ($config['functions'] as $name => $function) {
-				$handler = !function_exists($function['target'])
-					? $app->get($function['target'])
-					: $filter['target'];
-
-				$environment->addFunction(new Twig\TwigFunction($name, $handler));
+				if ($handler = $this->resolve($app, $function)) {
+					$environment->addFunction(new Twig\TwigFunction($name, $handler));
+				}
 			}
 
 			//
@@ -93,5 +91,33 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 		}
 
 		return $environment;
+	}
+
+
+	/**
+	 *
+	 */
+	protected function resolve($app, $config)
+	{
+		if (isset($function['target'])) {
+			if (function_exists($function['target'])) {
+				return $function['target'];
+			}
+
+			if ($app->has($function['target'])) {
+				return $app->get($function['target']);
+			}
+
+			if (!$function['required'] && TRUE) {
+				return NULL;
+			}
+
+			throw new RuntimeException(sprintf(
+				'Cannot add Twig funciton or filter "%s", not a function or class',
+				$function['target']
+			));
+		}
+
+		throw new RuntimeException('Cannot add twig function or filter with missing target');
 	}
 }
