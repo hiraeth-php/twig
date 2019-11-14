@@ -64,7 +64,7 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 			foreach ($config['filters'] as $name => $filter) {
 				$options = $filter['options'] ?? array();
 
-				if ($handler = $this->resolve($app, $function)) {
+				if ($handler = $this->resolve($app, $filter)) {
 					$environment->addFilter(new Twig\TwigFilter($name, $handler, $options));
 				}
 
@@ -99,22 +99,22 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 	 */
 	protected function resolve($app, $config)
 	{
-		if (isset($function['target'])) {
-			if (function_exists($function['target'])) {
-				return $function['target'];
+		if (isset($config['target'])) {
+			if (function_exists($config['target'])) {
+				return $config['target'];
 			}
 
-			if ($app->has($function['target'])) {
-				return $app->get($function['target']);
+			if ($app->has($config['target'])) {
+				return $app->get($config['target']);
 			}
 
-			if (!$function['required'] && TRUE) {
+			if (!$config['required'] ?? TRUE) {
 				return NULL;
 			}
 
 			throw new RuntimeException(sprintf(
 				'Cannot add Twig funciton or filter "%s", not a function or class',
-				$function['target']
+				$config['target']
 			));
 		}
 

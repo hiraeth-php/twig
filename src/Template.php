@@ -13,7 +13,7 @@ class Template extends Templates\AbstractTemplate
 	/**
 	 * The twig template instance
 	 *
-	 * @var Twig\TemplateWrapper
+	 * @var Twig\TemplateWrapper|null
 	 */
 	protected $template = NULL;
 
