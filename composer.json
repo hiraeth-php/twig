@@ -2,6 +2,7 @@
     "name": "hiraeth/twig",
     "description": "Twig templates for the Hiraeth Nano-Framework",
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "license": "MIT",
     "authors": [
         {
