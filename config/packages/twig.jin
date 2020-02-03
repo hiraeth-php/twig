@@ -113,6 +113,12 @@
 		"scalar": {
 			"target": "is_scalar"
 		},
+		"object": {
+			"target": "is_object"
+		},
+		"array": {
+			"target": "is_array"
+		},
 		"attr": {
 			"target": "Hiraeth\Twig\AttrFilter",
 			"options": {
