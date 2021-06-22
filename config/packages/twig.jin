@@ -119,6 +119,9 @@
 		"array": {
 			"target": "is_array"
 		},
+		"unique": {
+			"target": "array_unique"
+		},
 		"attr": {
 			"target": "Hiraeth\Twig\AttrFilter",
 			"options": {
