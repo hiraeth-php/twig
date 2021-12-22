@@ -122,6 +122,9 @@
 		"unique": {
 			"target": "array_unique"
 		},
+		"sum": {
+			"target": "array_sum"
+		},
 		"attr": {
 			"target": "Hiraeth\Twig\AttrFilter",
 			"options": {
