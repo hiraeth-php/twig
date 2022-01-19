@@ -125,6 +125,9 @@
 		"sum": {
 			"target": "array_sum"
 		},
+		"unescape": {
+			"target": "htmlspecialchars_decode"
+		},
 		"attr": {
 			"target": "Hiraeth\Twig\AttrFilter",
 			"options": {
