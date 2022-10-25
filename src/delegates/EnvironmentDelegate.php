@@ -31,7 +31,7 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 			'charset' => 'utf-8'
 		]);
 
-		$environment = new Twig\Environment($app->get('Twig\Loader\LoaderInterface'), [
+		$environment = new Twig\Environment($app->get(Twig\Loader\LoaderInterface::class), [
 			'debug'            => $options['debug'],
 			'strict_variables' => $options['strict'] ?? $options['debug'],
 			'charset'          => $options['charset'],
@@ -95,9 +95,12 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 
 
 	/**
+	 * Resolve a configured target into a suitable PHP callable
 	 *
+	 * @param Hiraeth\Application $app
+	 * @param mixed[] $config
 	 */
-	protected function resolve($app, $config)
+	protected function resolve(Hiraeth\Application $app, array $config): ?callable
 	{
 		if (isset($config['target'])) {
 			if (function_exists($config['target'])) {
@@ -108,7 +111,7 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 				return $app->get($config['target']);
 			}
 
-			if (!$config['required'] ?? TRUE) {
+			if (!($config['required'] ?? TRUE)) {
 				return NULL;
 			}
 

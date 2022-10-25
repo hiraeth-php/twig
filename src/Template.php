@@ -20,6 +20,9 @@ class Template extends Templates\AbstractTemplate
 
 	/**
 	 * Create a new instance
+	 *
+	 * @param Twig\TemplateWrapper $template
+	 * @param mixed[] $data
 	 */
 	public function __construct(Twig\TemplateWrapper $template, array $data = array())
 	{
