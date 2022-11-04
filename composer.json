@@ -12,14 +12,14 @@
         }
     ],
     "provide": {
-        "hiraeth/templates-imp": "1.0.0"
+        "hiraeth/templates-imp": "2.0.0"
     },
     "autoload": {
         "classmap": ["src/"]
     },
     "require": {
         "hiraeth/app": "^2.0",
-        "hiraeth/templates": "^1.0",
+        "hiraeth/templates": "^2.0",
         "twig/twig": "^2.0"
     },
     "require-dev": {
