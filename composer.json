@@ -18,8 +18,8 @@
         "classmap": ["src/"]
     },
     "require": {
-        "hiraeth/app": "^2.0",
-        "hiraeth/templates": "^2.0",
+        "hiraeth/app": "^3.0",
+        "hiraeth/templates": "^3.0",
         "twig/twig": "^3.0"
     },
     "require-dev": {
