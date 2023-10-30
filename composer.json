@@ -12,7 +12,7 @@
         }
     ],
     "provide": {
-        "hiraeth/templates-imp": "2.0.0"
+        "hiraeth/templates-imp": "3.0.0"
     },
     "autoload": {
         "classmap": ["src/"]
