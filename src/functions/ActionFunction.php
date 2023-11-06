@@ -25,7 +25,8 @@ class ActionFunction
 
 
 	/**
-	 *
+	 * @param array<string, mixed> $context
+	 * @param class-string $class
 	 */
 	public function __invoke(array &$context, string $class): void
 	{
