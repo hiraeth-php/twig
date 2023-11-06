@@ -30,7 +30,13 @@ class ActionFunction
 	public function __invoke(array &$context, string $class): void
 	{
 		$action  = $this->app->get(str_replace(':', '\\', $class));
-		$result  = $action->call($context['request'], $context['route']->getParameters());
+
+		if ($context['route']) {
+			$result = $action->call($context['request'], $context['route']->getParameters());
+		} else {
+			$result = $action->call($context['request']);
+		}
+
 		$context = array_merge($context, $result);
 	}
 }
