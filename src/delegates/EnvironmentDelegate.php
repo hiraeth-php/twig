@@ -75,8 +75,10 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 			//
 
 			foreach ($config['functions'] as $name => $function) {
+				$options = $function['options'] ?? array();
+
 				if ($handler = $this->resolve($app, $function)) {
-					$environment->addFunction(new Twig\TwigFunction($name, $handler));
+					$environment->addFunction(new Twig\TwigFunction($name, $handler, $options));
 				}
 			}
 

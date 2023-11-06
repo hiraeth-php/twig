@@ -145,9 +145,12 @@
 	;
 
 	functions = {
-	;	"md5": {
-	;		"target": "md5"
-	;	}
+		"action": {
+			"target": "Hiraeth\Twig\ActionFunction",
+			"options": {
+				"needs_context": true
+			}
+		}
 	}
 
 	;
