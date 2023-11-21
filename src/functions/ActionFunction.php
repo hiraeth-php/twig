@@ -32,7 +32,7 @@ class ActionFunction
 	{
 		$action  = $this->app->get(str_replace(':', '\\', $class));
 
-		if ($context['route']) {
+		if (isset($context['route'])) {
 			$result = $action->call($context['request'], $context['route']->getParameters());
 		} else {
 			$result = $action->call($context['request']);
