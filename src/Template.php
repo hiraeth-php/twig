@@ -11,6 +11,11 @@ use Hiraeth\Templates;
 class Template extends Templates\AbstractTemplate
 {
 	/**
+	 * @var Twig\Environment
+	 */
+	protected $env;
+
+	/**
 	 * The twig template instance
 	 *
 	 * @var Twig\TemplateWrapper|null
@@ -24,10 +29,11 @@ class Template extends Templates\AbstractTemplate
 	 * @param Twig\TemplateWrapper $template
 	 * @param mixed[] $data
 	 */
-	public function __construct(Twig\TemplateWrapper $template, array $data = array())
+	public function __construct(Twig\Environment $env, Twig\TemplateWrapper $template, array $data = array())
 	{
 		$this->template = $template;
 		$this->data     = $data;
+		$this->env      = $env;
 	}
 
 
@@ -45,6 +51,14 @@ class Template extends Templates\AbstractTemplate
 	 */
 	public function render(): string
 	{
-		return $this->template->render($this->data);
+		$content = $this->template->render($this->data);
+
+		foreach ($this->env->getExtensions() as $extension) {
+			if ($extension instanceof Renderer) {
+				$content = $extension->render($content, $this->getExtension());
+			}
+		}
+
+		return $content;
 	}
 }

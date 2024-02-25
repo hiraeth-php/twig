@@ -24,6 +24,16 @@ class Manager implements Templates\Manager
 	public function __construct(Twig\Environment $environment)
 	{
 		$this->environment = $environment;
+
+		//
+		// Register ourselves with any extensions that support the Renderer interface
+		//
+
+		foreach ($this->environment->getExtensions() as $extension) {
+			if ($extension instanceof Renderer) {
+				$extension->setRenderManager($this);
+			}
+		}
 	}
 
 
@@ -47,6 +57,6 @@ class Manager implements Templates\Manager
 	 */
 	public function load(string $path, array $data = []): Templates\Template
 	{
-		return new Template($this->environment->load($path), $data);
+		return new Template($this->environment, $this->environment->load($path), $data);
 	}
 }
