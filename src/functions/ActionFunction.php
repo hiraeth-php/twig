@@ -35,7 +35,11 @@ class ActionFunction
 		if (isset($context['route'])) {
 			$result = $action->call($context['request'], $context['route']->getParameters());
 		} else {
-			$result = $action->call($context['request']);
+			if (isset($context['parameters'])) {
+				$result = $action->call($context['request'], $context['parameters']);
+			} else {
+				$result = $action->call($context['request']);
+			}
 		}
 
 		$context = array_merge($context, $result);
