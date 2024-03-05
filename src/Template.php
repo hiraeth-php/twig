@@ -11,6 +11,11 @@ use Hiraeth\Templates;
 class Template extends Templates\AbstractTemplate
 {
 	/**
+	 * @var string
+	 */
+	protected $block;
+
+	/**
 	 * @var Twig\Environment
 	 */
 	protected $env;
@@ -38,6 +43,18 @@ class Template extends Templates\AbstractTemplate
 
 
 	/**
+	 * Render a block
+	 */
+	public function block(string $name, array $data = array()): self
+	{
+		$this->block = $name;
+		$this->data  = array_merge_recursive($this->data, $data);
+
+		return $this;
+	}
+
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public function getExtension(): string
@@ -51,7 +68,11 @@ class Template extends Templates\AbstractTemplate
 	 */
 	public function render(): string
 	{
-		$content = $this->template->render($this->data);
+		if ($this->block) {
+			$content = $this->template->renderBlock($this->block, $this->data);
+		} else {
+			$content = $this->template->render($this->data);
+		}
 
 		foreach ($this->env->getExtensions() as $extension) {
 			if ($extension instanceof Renderer) {
