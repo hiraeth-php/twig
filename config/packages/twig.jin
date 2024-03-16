@@ -128,9 +128,6 @@
 		"unescape": {
 			"target": "htmlspecialchars_decode"
 		},
-		"trans": {
-			"target": "_"
-		},
 		"attr": {
 			"target": "Hiraeth\Twig\AttrFilter",
 			"options": {
