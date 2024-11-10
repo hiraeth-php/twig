@@ -45,7 +45,7 @@ class Template extends Templates\AbstractTemplate
 	/**
 	 * Render a block
 	 */
-	public function block(string $name, array $data = array()): self
+	public function block(string $name, array $data = array()): static
 	{
 		$this->block = $name;
 		$this->data  = array_merge_recursive($this->data, $data);
