@@ -142,12 +142,7 @@
 	;
 
 	functions = {
-		"action": {
-			"target": "Hiraeth\Twig\ActionFunction",
-			"options": {
-				"needs_context": true
-			}
-		}
+
 	}
 
 	;
