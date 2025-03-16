@@ -41,13 +41,13 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 		]);
 
 		$defaults = [
-			'extensions' => array(),
-			'filters'    => array(),
-			'functions'  => array(),
-			'globals'    => array(),
+			'extensions' => [],
+			'filters'    => [],
+			'functions'  => [],
+			'globals'    => [],
 		];
 
-		foreach ($app->getConfig('*', 'twig', $defaults) as $path => $config) {
+		foreach ($app->getConfig('*', 'twig', $defaults) as $config) {
 
 			//
 			// Configure extensions
@@ -62,7 +62,7 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 			//
 
 			foreach ($config['filters'] as $name => $filter) {
-				$options = $filter['options'] ?? array();
+				$options = $filter['options'] ?? [];
 
 				if ($handler = $this->resolve($app, $filter)) {
 					$environment->addFilter(new Twig\TwigFilter($name, $handler, $options));
@@ -75,7 +75,7 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 			//
 
 			foreach ($config['functions'] as $name => $function) {
-				$options = $function['options'] ?? array();
+				$options = $function['options'] ?? [];
 
 				if ($handler = $this->resolve($app, $function)) {
 					$environment->addFunction(new Twig\TwigFunction($name, $handler, $options));

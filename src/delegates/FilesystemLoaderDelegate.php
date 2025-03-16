@@ -27,14 +27,12 @@ class FilesystemLoaderDelegate implements Hiraeth\Delegate
 		$loader    = new Twig\Loader\FilesystemLoader();
 		$templates = $app->getConfig('*', 'templates', [
 			'priority' => 50,
-			'paths'    => array()
+			'paths'    => []
 		]);
 
-		uasort($templates, function($a, $b) {
-			return $a['priority'] - $b['priority'];
-		});
+		uasort($templates, fn($a, $b) => $a['priority'] - $b['priority']);
 
-		foreach ($templates as $path => $config) {
+		foreach ($templates as $config) {
 			foreach ($config['paths'] as $namespace => $entries) {
 				settype($entries, 'array');
 

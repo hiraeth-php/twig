@@ -133,6 +133,9 @@
 			"options": {
 				"is_safe": ["html"]
 			}
+		},
+		"if": {
+			"target": "Hiraeth\Twig\IfFilter"
 		}
 	}
 

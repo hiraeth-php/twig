@@ -34,7 +34,7 @@ class Template extends Templates\AbstractTemplate
 	 * @param Twig\TemplateWrapper $template
 	 * @param mixed[] $data
 	 */
-	public function __construct(Twig\Environment $env, Twig\TemplateWrapper $template, array $data = array())
+	public function __construct(Twig\Environment $env, Twig\TemplateWrapper $template, array $data = [])
 	{
 		$this->template = $template;
 		$this->data     = $data;
@@ -45,7 +45,7 @@ class Template extends Templates\AbstractTemplate
 	/**
 	 * Render a block
 	 */
-	public function block(string $name, array $data = array()): static
+	public function block(string $name, array $data = []): static
 	{
 		$this->block = $name;
 		$this->data  = array_merge_recursive($this->data, $data);
@@ -59,7 +59,7 @@ class Template extends Templates\AbstractTemplate
 	 */
 	public function getExtension(): string
 	{
-		return explode('.', basename($this->template->getTemplateName()), 2)[1] ?? '';
+		return explode('.', basename((string) $this->template->getTemplateName()), 2)[1] ?? '';
 	}
 
 
