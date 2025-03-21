@@ -86,8 +86,13 @@ class EnvironmentDelegate implements Hiraeth\Delegate
 			// Configure globals
 			//
 
-			foreach ($config['globals'] as $name => $class) {
-				$environment->addGlobal($name, $app->get($class));
+			foreach ($config['globals'] as $name => $value) {
+				if (is_string($value) && class_exists($value)) {
+					$environment->addGlobal($name, $app->get($value));
+				} else {
+					$environment->addGlobal($name, $value);
+				}
+
 			}
 
 		}
