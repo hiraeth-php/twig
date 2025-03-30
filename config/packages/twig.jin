@@ -139,6 +139,12 @@
 		},
 		"if": {
 			"target": "Hiraeth\Twig\IfFilter"
+		},
+		"mock": {
+			"target": "Hiraeth\Twig\MockFilter",
+			"options": {
+				"needs_context": true
+			}
 		}
 	}
 
