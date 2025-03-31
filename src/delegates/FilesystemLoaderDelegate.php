@@ -24,7 +24,7 @@ class FilesystemLoaderDelegate implements Hiraeth\Delegate
 	 */
 	public function __invoke(Hiraeth\Application $app): object
 	{
-		$loader    = new Twig\Loader\FilesystemLoader();
+		$loader    = new Twig\Loader\FilesystemLoader($app->getDirectory());
 		$templates = $app->getConfig('*', 'templates', [
 			'priority' => 50,
 			'paths'    => []
