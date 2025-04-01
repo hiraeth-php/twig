@@ -154,7 +154,12 @@
 	;
 
 	functions = {
-
+		"mock": {
+			"target": "Hiraeth\Twig\MockFunction",
+			"options": {
+				"needs_environment": true
+			}
+		}
 	}
 
 	;
