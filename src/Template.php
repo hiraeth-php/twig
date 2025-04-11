@@ -76,7 +76,11 @@ class Template extends Templates\AbstractTemplate
 
 		foreach ($this->env->getExtensions() as $extension) {
 			if ($extension instanceof Renderer) {
-				$content = $extension->render($content, $this->getExtension());
+				$content = $extension->render(
+					$content,
+					$this->getExtension(),
+					$this->data + $this->env->getGlobals()
+				);
 			}
 		}
 
