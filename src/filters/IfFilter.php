@@ -12,13 +12,13 @@ class IfFilter
 	/**
 	 *
 	 *
-	 * @param string $data The string to output
+	 * @param mixed $data The string to output
 	 * @param bool $requirement The condition for returning the string
 	 */
-	function __invoke(string $data, bool $requirement): string
+	function __invoke(mixed $data, bool $requirement): mixed
 	{
 		return $requirement
 			? $data
-			: '';
+			: null;
 	}
 }
