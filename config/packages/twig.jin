@@ -131,14 +131,17 @@
 		"basename": {
 			"target": "basename"
 		},
+		"if": {
+			"target": "Hiraeth\Twig\IfFilter"
+		},
+		"switch": {
+			"target": "Hiraeth\Twig\SwitchFilter"
+		},
 		"attr": {
 			"target": "Hiraeth\Twig\AttrFilter",
 			"options": {
 				"is_safe": ["html"]
 			}
-		},
-		"if": {
-			"target": "Hiraeth\Twig\IfFilter"
 		},
 		"mock": {
 			"target": "Hiraeth\Twig\MockFilter",
