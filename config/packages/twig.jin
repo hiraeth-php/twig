@@ -119,6 +119,9 @@
 		"array": {
 			"target": "is_array"
 		},
+		"combine": {
+			"target": "array_merge_recursive"
+		},
 		"unique": {
 			"target": "array_unique"
 		},
